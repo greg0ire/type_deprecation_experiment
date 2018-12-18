@@ -1,0 +1,25 @@
+{
+    "name": "greg0ire/type-deprecation-experiment",
+    "description": "Just kidding around with deprecations",
+    "type": "project",
+    "require-dev": {
+        "symfony/phpunit-bridge": "^4.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Greg0ire\\TypeDeprecationExperiment\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Greg0ire\\TypeDeprecationExperiment\\Tests\\": "tests"
+        }
+    },
+    "authors": [
+        {
+            "name": "Grégoire Paris",
+            "email": "postmaster@greg0ire.fr"
+        }
+    ],
+    "require": {}
+}
