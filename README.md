@@ -47,10 +47,10 @@ This creates an alias from interface `LegacyFoo`, to interface `ShinyNewFoo`.
 You read that right, although it is `class_alias` and I used the `class`
 constant, both work for interfaces. But this is not enough, because nothing
 guarantees `LegacyFoo` will be autoloaded at some point. Using that type in a
-parameter type hint is not does not trigger autoload, because surely the type
-should be autoloaded when the object passed as parameter is instantiated. Well,
-this optimization does not work for type aliases, which means we have to
-manually trigger the autoload at the bottom of `ShinyNewFoo.php`.
+parameter type hint does not trigger autoload, because surely the type should
+be autoloaded when the object passed as parameter is instantiated. Well, this
+optimization does not work for type aliases, which means we have to manually
+trigger the autoload at the bottom of `ShinyNewFoo.php`.
 
 ```php
 <?php
