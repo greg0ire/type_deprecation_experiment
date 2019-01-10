@@ -57,7 +57,7 @@ trigger the autoload at the bottom of `ShinyNewFoo.php`.
 
 // ShinyNewFoo.php
 
-class_exists(ShinyNewFoo::class);
+class_exists(LegacyFoo::class);
 ```
 
 Think this is over? Not so fast, there is more. Now that it all works, let us
