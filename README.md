@@ -63,7 +63,7 @@ class_exists(LegacyFoo::class);
 Think this is over? Not so fast, there is more. Now that it all works, let us
 put this in production, and see it burst into flames! `class_alias` calls are
 so rarely used that Composer does not look for them when generating its
-autoload classmap. [Autoload
+autoloader classmap. [Autoload
 classmaps](https://getcomposer.org/doc/articles/autoloader-optimization.md) are
 a way to know which files to load without checking the filesystem first, which
 is faster. To trick Composer into detecting the legacy type, we can declare it
