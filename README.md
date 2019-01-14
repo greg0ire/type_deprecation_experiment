@@ -100,7 +100,7 @@ if (!class_exists(ShinyNewFoo::class, false)) {
 }
 ```
 
-This checks first if `ShinyNewFoo` exists, *without triggerring autoload*. If it
+This checks first if `ShinyNewFoo` exists, *without triggering autoload*. If it
 does not, then `LegacyFoo` is referenced somewhere and we can safely trigger a
 deprecation.
 
