@@ -126,9 +126,9 @@ not mark as final… (or that could be `abstract`, same issue).
 ```php
 <?php
 
-class Foobar
+abstract class Foobar
 {
-    public function foobar(ShinyNewFoo $foo);
+    abstract public function foobar(ShinyNewFoo $foo);
 }
 ```
 
