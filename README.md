@@ -104,10 +104,14 @@ This checks first if `ShinyNewFoo` exists, *without triggering autoload*. If it
 does not, then `LegacyFoo` is referenced somewhere and we can safely trigger a
 deprecation.
 
-~~Done.~~ Nope, not done, you sweet summer child! It goes deeper.
+Done. The following seems to have been fixed by now, or maybe does not occur
+exactly in these conditions, you can ignore it. Leaving it here in case it
+still appears in some conditions.
 
-This is an even rarer occurrence, but let us consider an interface that you
-expose, and that uses the deprecated type in one of its signatures:
+~~Nope, not done, you sweet summer child! It goes deeper.~~
+
+~~This is an even rarer occurrence, but let us consider an interface that you
+expose, and that uses the deprecated type in one of its signatures:~~
 
 ```php
 <?php
@@ -118,10 +122,10 @@ interface Bar
 }
 ```
 
-What should happen to the implementation of your consumers?
+~~What should happen to the implementation of your consumers?~~
 
-Let us also consider that class that does something similar, but that you did
-not mark as final… (or that could be `abstract`, same issue).
+~~Let us also consider that class that does something similar, but that you did
+not mark as final… (or that could be `abstract`, same issue).~~
 
 ```php
 <?php
@@ -132,11 +136,11 @@ abstract class Foobar
 }
 ```
 
-What should happen to extending classes of your consumers?
+~~What should happen to extending classes of your consumers?~~
 
-Well they shall crash and burn, of course! Since type hinting does not trigger
+~~Well they shall crash and burn, of course! Since type hinting does not trigger
 autoload, the alias does not exist, so PHP cannot know both type hints mean the
-same thing.
+same thing.~~
 
 ```php
 <?php
@@ -153,10 +157,10 @@ final class ExtendingFoobar extends Foobar implements Bar
 }
 ```
 
-Unless… you guessed it, we need to add yet another call to `class_exists` (or
+~~Unless… you guessed it, we need to add yet another call to `class_exists` (or
 `interface_exists`) to trigger the autoload. In order not to get a deprecation,
 we will use that on the new type, and it will in turn silently load the old
-type and do the class alias.
+type and do the class alias.~~
 
 ```php
 <?php
@@ -168,8 +172,8 @@ interface Bar
 class_exists(\ShinyNewFoo::class);
 ```
 
-To sum things up, every extensible interface, every interface that uses the old
-type in one of its signatures should make sure to autoload the new type.
+~~To sum things up, every extensible interface, every interface that uses the old
+type in one of its signatures should make sure to autoload the new type.~~
 
 Done. Until next time. Wow that was hard, and I cannot say it feels very
 satisfying. I wish there were a native way in php to do all this.
