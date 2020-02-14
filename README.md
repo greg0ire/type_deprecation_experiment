@@ -47,10 +47,11 @@ This creates an alias from interface `LegacyFoo`, to interface `ShinyNewFoo`.
 You read that right, although it is `class_alias` and I used the `class`
 constant, both work for interfaces. But this is not enough, because nothing
 guarantees `LegacyFoo` will be autoloaded at some point. Using that type in a
-parameter type hint does not trigger autoload, because surely the type should
-be autoloaded when the object passed as parameter is instantiated. Well, this
-optimization does not work for type aliases, which means we have to manually
-trigger the autoload at the bottom of `ShinyNewFoo.php`.
+parameter type declaration does not trigger autoload, because surely the type
+should be autoloaded when the object passed as parameter is instantiated. Well,
+this optimization does not work for type aliases, which means we have to
+manually trigger the autoload at the bottom of `ShinyNewFoo.php`.
+
 
 ```php
 <?php
@@ -104,14 +105,14 @@ This checks first if `ShinyNewFoo` exists, *without triggering autoload*. If it
 does not, then `LegacyFoo` is referenced somewhere and we can safely trigger a
 deprecation.
 
-Done. The following seems to have been fixed by now, or maybe does not occur
-exactly in these conditions, you can ignore it. Leaving it here in case it
-still appears in some conditions.
+Done? The following seems to have been fixed with recent versions of php, you
+can ignore it if your library requires php >= 7.4.0.
 
-~~Nope, not done, you sweet summer child! It goes deeper.~~
+Otherwise… nope, not done, you sweet summer child! It goes deeper.
 
-~~This is an even rarer occurrence, but let us consider an interface that you
-expose, and that uses the deprecated type in one of its signatures:~~
+This is an even rarer occurrence, but let us consider an interface that you
+expose, and that used the deprecated type in one of its signature and was
+switched to the new type:
 
 ```php
 <?php
@@ -122,10 +123,10 @@ interface Bar
 }
 ```
 
-~~What should happen to the implementation of your consumers?~~
+What should happen to the implementation of your consumers?
 
-~~Let us also consider that class that does something similar, but that you did
-not mark as final… (or that could be `abstract`, same issue).~~
+Let us also consider that class that does something similar, but that you did
+not mark as final… (or that could be `abstract`, same issue).
 
 ```php
 <?php
@@ -136,11 +137,11 @@ abstract class Foobar
 }
 ```
 
-~~What should happen to extending classes of your consumers?~~
+What should happen to extending classes of your consumers?
 
-~~Well they shall crash and burn, of course! Since type hinting does not trigger
-autoload, the alias does not exist, so PHP cannot know both type hints mean the
-same thing.~~
+Well they shall crash and burn, of course! Since type declarations do not
+trigger autoload, the alias does not exist, so PHP cannot know both type
+declarations mean the same thing.
 
 ```php
 <?php
@@ -157,10 +158,10 @@ final class ExtendingFoobar extends Foobar implements Bar
 }
 ```
 
-~~Unless… you guessed it, we need to add yet another call to `class_exists` (or
-`interface_exists`) to trigger the autoload. In order not to get a deprecation,
-we will use that on the new type, and it will in turn silently load the old
-type and do the class alias.~~
+Unless… you guessed it, we need to add yet another call to `class_exists` (or
+`interface_exists`) call to trigger the autoload. In order not to get a
+deprecation, we will use that on the new type, and it will in turn silently
+load the old type and do the class alias.
 
 ```php
 <?php
@@ -172,8 +173,13 @@ interface Bar
 class_exists(\ShinyNewFoo::class);
 ```
 
-~~To sum things up, every extensible interface, every interface that uses the old
-type in one of its signatures should make sure to autoload the new type.~~
+To sum things up, every extensible interface, every interface that uses the old
+type in one of its signatures should make sure to autoload the new type.
+
 
 Done. Until next time. Wow that was hard, and I cannot say it feels very
 satisfying. I wish there were a native way in php to do all this.
+
+If you want to tinker with this problem yourself and try things out, here is a
+repo that might serve as a good starting point for you:
+https://github.com/greg0ire/type_deprecation_experiment
